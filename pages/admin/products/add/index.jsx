@@ -55,6 +55,7 @@ const Add = () => {
 		}
 
 		setImage(file)
+		console.log(file)
 	}
 
 	const productMutation = useMutation((data) => api.create('/products', data), {

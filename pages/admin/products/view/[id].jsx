@@ -369,7 +369,7 @@ const View = () => {
 										<Flex align="center" gap={6}>
 											<Input placeholder="Color" size="lg" {...register('color')} />
 											<Input placeholder="Size" size="lg" {...register('size')} />
-											<Input type="number" placeholder="Quantity" size="lg" {...register('quantity')} />
+											{/* <Input type="number" placeholder="Quantity" size="lg" {...register('quantity')} /> */}
 											<IconButton variant="tinted" size="lg" colorScheme="brand" icon={<FiPlus size={16} />} isLoading={isAddVariantLoading} onClick={addVariant} />
 										</Flex>
 
@@ -377,7 +377,7 @@ const View = () => {
 											<Flex align="center" gap={6} key={variant._id}>
 												<Input value={variant.color} size="lg" textTransform="capitalize" readOnly />
 												<Input value={variant.size} size="lg" textTransform="capitalize" readOnly />
-												<Input value={variant.quantity} type="number" size="lg" readOnly />
+												{/* <Input value={variant.quantity} type="number" size="lg" readOnly /> */}
 												<IconButton variant="tinted" size="lg" colorScheme="red" icon={<FiMinus size={16} />} isLoading={isRemoveVariantLoading && removeVariantId === variant._id} onClick={() => removeVariant(product._id, variant._id)} />
 											</Flex>
 										))}

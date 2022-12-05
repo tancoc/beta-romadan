@@ -159,7 +159,7 @@ const Sidebar = ({ session, isAdmin, isCustomer, isUserPage, isSidebarOpen, onSi
 									</Link>
 								</NextLink>
 
-								<NextLink href="/user/likes" passHref>
+								{/* <NextLink href="/user/likes" passHref>
 									<Link as="span" display="block" py={2} lineHeight={6} active={router.pathname.includes('likes') ? 1 : 0} onClick={onSidebarClose}>
 										<Flex align="center" gap={3}>
 											<Icon as={FiHeart} boxSize={4} />
@@ -167,7 +167,7 @@ const Sidebar = ({ session, isAdmin, isCustomer, isUserPage, isSidebarOpen, onSi
 											<Text>Likes</Text>
 										</Flex>
 									</Link>
-								</NextLink>
+								</NextLink> */}
 							</Flex>
 						) : (
 							<Flex direction="column" gap={1}>

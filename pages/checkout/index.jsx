@@ -19,6 +19,10 @@ const Checkout = () => {
 	const [mounted, setMounted] = useState(false)
 	const toast = useToast()
 
+	if (!session) {
+		router.push('/')
+	}
+
 	const {
 		register,
 		watch,

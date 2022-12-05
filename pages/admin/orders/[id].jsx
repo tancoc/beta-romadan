@@ -18,11 +18,10 @@ const Order = () => {
 	const disclosure = useDisclosure()
 	const toast = useToast()
 
-	console.log(rnr)
-
 	const orderStatusMutation = useMutation((data) => api.update('/orders', id, data), {
 		onSuccess: () => {
 			queryClient.invalidateQueries('orders')
+			queryClient.invalidateQueries('products')
 
 			toast({
 				position: 'top',
@@ -37,12 +36,14 @@ const Order = () => {
 				if (order.to_ship.status) {
 					orderStatusMutation.mutate({
 						type: type,
-						status: false
+						status: false,
+						email: order.email
 					})
 				} else {
 					orderStatusMutation.mutate({
 						type: type,
-						status: true
+						status: true,
+						email: order.email
 					})
 				}
 
@@ -52,12 +53,14 @@ const Order = () => {
 				if (order.to_receive.status) {
 					orderStatusMutation.mutate({
 						type: type,
-						status: false
+						status: false,
+						email: order.email
 					})
 				} else {
 					orderStatusMutation.mutate({
 						type: type,
-						status: true
+						status: true,
+						email: order.email
 					})
 				}
 
@@ -67,12 +70,14 @@ const Order = () => {
 				if (order.completed.status) {
 					orderStatusMutation.mutate({
 						type: type,
-						status: false
+						status: false,
+						email: order.email
 					})
 				} else {
 					orderStatusMutation.mutate({
 						type: type,
-						status: true
+						status: true,
+						email: order.email
 					})
 				}
 
@@ -306,7 +311,7 @@ const Order = () => {
 					</Card>
 				</GridItem>
 
-				<GridItem display="grid" gap={6}>
+				<GridItem display="grid" gap={6} colSpan={{ base: 2, lg: 1 }}>
 					{order.products.map((product) => (
 						<Card key={product.cart.id}>
 							<Flex gap={6}>
@@ -344,7 +349,7 @@ const Order = () => {
 					))}
 				</GridItem>
 
-				<GridItem>
+				<GridItem colSpan={{ base: 2, lg: 1 }}>
 					<Card>
 						<Flex direction="column" gap={3}>
 							<Flex justify="space-between" align="center" gap={6}>
@@ -374,6 +379,16 @@ const Order = () => {
 
 								<Text fontSize="sm" fontWeight="medium" color="accent-1">
 									₱{order.shipping.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+								</Text>
+							</Flex>
+
+							<Flex justify="space-between" align="center" gap={6}>
+								<Text fontSize="sm" fontWeight="medium" color="accent-1">
+									Payment Method
+								</Text>
+
+								<Text fontSize="sm" fontWeight="medium" color="accent-1">
+									{order.payment_method}
 								</Text>
 							</Flex>
 

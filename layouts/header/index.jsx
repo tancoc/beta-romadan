@@ -64,7 +64,7 @@ const Header = ({ session, isAdmin, isCustomer, onSidebarOpen }) => {
 				<Flex flex={1} justify="end" align="center">
 					<Flex align="center" gap={3}>
 						<Flex align="center">
-							<IconButton variant="ghost" colorScheme="brand" icon={<FiShoppingCart size={16} fill="currentColor" />} onClick={() => router.push('/user/cart')} />
+							{isCustomer && <IconButton variant="ghost" colorScheme="brand" icon={<FiShoppingCart size={16} fill="currentColor" />} onClick={() => router.push('/user/cart')} />}
 							<IconButton variant="ghost" colorScheme="brand" icon={colorModeIcon} onClick={toggleColorMode} />
 						</Flex>
 

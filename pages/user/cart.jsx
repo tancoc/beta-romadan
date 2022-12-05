@@ -65,6 +65,17 @@ const Cart = () => {
 		return subtotal(data) - discount(data)
 	}
 
+	const proceed = () => {
+		if (carts.length === 0) {
+			toast({
+				position: 'top',
+				render: () => <Toast title="Empty Cart" description="Please add products." status="error" />
+			})
+		} else {
+			router.push('/checkout')
+		}
+	}
+
 	useEffect(() => {
 		if (isCartsFetched) {
 			setMounted(true)
@@ -169,7 +180,7 @@ const Cart = () => {
 				</Card>
 
 				<Flex justify="end" align="center">
-					<Button size="lg" colorScheme="brand" onClick={() => router.push('/checkout')}>
+					<Button size="lg" colorScheme="brand" onClick={proceed}>
 						Proceed To Checkout
 					</Button>
 				</Flex>

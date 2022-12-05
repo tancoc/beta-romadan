@@ -18,7 +18,7 @@ const Orders = () => {
 					Recent Orders
 				</Text>
 
-				<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} />
+				<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} onClick={() => router.push('/admin/orders')} />
 			</Flex>
 
 			<Table

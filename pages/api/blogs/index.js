@@ -1,5 +1,5 @@
 import connect from 'database/connect'
-import Users from 'database/schemas/users'
+import Blogs from 'database/schemas/blogs'
 
 export default async (req, res) => {
 	const { method } = req
@@ -8,8 +8,8 @@ export default async (req, res) => {
 	switch (method) {
 		case 'GET':
 			try {
-				const data = await Users.find({}).sort({ createdAt: -1 })
-				res.status(200).send(data)
+				const data = await Blogs.find({}).sort({ createdAt: -1 })
+				res.status(200).send(data.filter((data) => !data.archive && !data.deleted))
 			} catch (error) {
 				return res.status(400).send('request failed.')
 			}
@@ -18,6 +18,16 @@ export default async (req, res) => {
 
 		case 'POST':
 			try {
+				const { data } = req.body
+
+				console.log(req.body)
+
+				await Blogs.create({
+					...data.data,
+					created: new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' }),
+					updated: new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' })
+				})
+
 				res.status(200).send('request success.')
 			} catch (error) {
 				return res.status(400).send('request failed.')
@@ -29,10 +39,10 @@ export default async (req, res) => {
 			try {
 				const { id, data } = req.body
 
-				await Users.findByIdAndUpdate(
+				await Blogs.findByIdAndUpdate(
 					{ _id: id },
 					{
-						...data,
+						...data.data,
 						updated: new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila' })
 					}
 				)
@@ -46,8 +56,6 @@ export default async (req, res) => {
 
 		case 'DELETE':
 			try {
-				const { id } = req.body
-				await Users.findByIdAndDelete({ _id: id })
 				res.status(200).send('request success.')
 			} catch (error) {
 				return res.status(400).send('request failed.')

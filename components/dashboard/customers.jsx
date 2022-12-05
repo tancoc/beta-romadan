@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import api from 'instance'
 import { Avatar, Flex, IconButton, Td, Text, Tr } from '@chakra-ui/react'
@@ -6,6 +7,7 @@ import Card from 'components/_card'
 import Table from 'components/_table'
 
 const Customers = () => {
+	const router = useRouter()
 	const { data: users, isFetched: isUsersFetched } = useQuery(['customers_dashboard'], () => api.all('/users'))
 
 	return (
@@ -15,7 +17,7 @@ const Customers = () => {
 					New Customers
 				</Text>
 
-				<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} />
+				<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} onClick={() => router.push('/admin/customers')} />
 			</Flex>
 
 			<Table
@@ -35,7 +37,7 @@ const Customers = () => {
 						</Td>
 
 						<Td textAlign="right">
-							<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} />
+							<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} onClick={() => router.push(`/admin/customers/${user._id}`)} />
 						</Td>
 					</Tr>
 				)}

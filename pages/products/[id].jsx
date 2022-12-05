@@ -13,6 +13,7 @@ const Product = () => {
 	const { id } = router.query
 	const { data: session } = useSession()
 	const queryClient = useQueryClient()
+	const { data: user, isFetched: isUserFetched } = useQuery(['user'], () => api.get('/users', session.user.id))
 	const { data: product, isFetched: isProductFetched } = useQuery(['products', id], () => api.get('/products', id))
 	const { data: variants, isFetched: isVariantsFetched } = useQuery(['variants'], () => api.get('/variants', id))
 	const [mounted, setMounted] = useState(false)
@@ -68,6 +69,34 @@ const Product = () => {
 	const addToCart = (data) => {
 		setIsLoading(true)
 
+		if (!session) {
+			setIsLoading(false)
+			router.push('/login')
+			return
+		}
+
+		if (session && !user.contact && !user.gender && !user.date_of_birth) {
+			router.push('/user/profile')
+
+			toast({
+				position: 'top',
+				render: () => <Toast title="Invalid Profile" description="Please complete your profile information." status="error" />
+			})
+
+			return
+		}
+
+		if (session && !user.address.region && !user.address.city && !user.address.barangay && !user.address.address && !user.address.postal) {
+			router.push('/user/address')
+
+			toast({
+				position: 'top',
+				render: () => <Toast title="Invalid Address" description="Please complete your address information." status="error" />
+			})
+
+			return
+		}
+
 		cartMutation.mutate({
 			user: {
 				id: session.user.id
@@ -89,7 +118,7 @@ const Product = () => {
 		}
 	}, [isProductFetched])
 
-	if (!mounted || !isProductFetched || !isVariantsFetched) {
+	if (!mounted || !isProductFetched || !isVariantsFetched || !isUserFetched) {
 		return (
 			<Flex p={6}>
 				<Spinner color="brand.default" />
@@ -190,16 +219,12 @@ const Product = () => {
 								</Flex>
 
 								<Text fontSize="sm" fontWeight="medium" color="accent-1" key={1}>
-									{qty(variants)} Items available
+									{product.inventory.shelf} Items available
 								</Text>
 
 								<Flex justify="center" gap={6}>
 									<Button type="submit" size="lg" colorScheme="brand" w="full" leftIcon={<FiShoppingCart size={16} />} isLoading={isLoading}>
 										Add to Cart
-									</Button>
-
-									<Button type="button" size="lg" w="full" leftIcon={<FiHeart size={16} />}>
-										Add to Likes
 									</Button>
 								</Flex>
 							</Flex>

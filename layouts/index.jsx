@@ -6,6 +6,7 @@ import { Romadan } from 'components/_logos'
 import Header from './header'
 import Sidebar from './sidebar'
 import Footer from './footer'
+import Chats from 'components/chats'
 
 const AppLayout = (props) => {
 	const router = useRouter()
@@ -76,6 +77,8 @@ const AppLayout = (props) => {
 						</chakra.main>
 					</chakra.div>
 				</chakra.div>
+
+				{session && session.user.role === 'Customer' && <Chats />}
 			</>
 		)
 	}

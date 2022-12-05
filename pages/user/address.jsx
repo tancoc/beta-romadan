@@ -93,7 +93,11 @@ const Address = () => {
 										<FormLabel>City</FormLabel>
 
 										<Select placeholder="⠀" size="lg" {...register('city', { required: true })}>
-											<option>Las Pinas City</option>
+											<option>Las Pinas</option>
+											<option>Pasay</option>
+											<option>Makati</option>
+											<option>Muntinlupa</option>
+											<option>Cavite</option>
 										</Select>
 
 										<FormErrorMessage>This field is required.</FormErrorMessage>

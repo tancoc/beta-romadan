@@ -11,7 +11,7 @@ const Products = () => {
 	return (
 		<Container>
 			<Flex direction="column" gap={6}>
-				<form>
+				{/* <form>
 					<InputGroup>
 						<InputLeftElement pt={2} pl={1} color="accent-1" pointerEvents="none">
 							<FiSearch size={16} />
@@ -23,7 +23,7 @@ const Products = () => {
 							<FiSliders size={16} />
 						</InputRightElement>
 					</InputGroup>
-				</form>
+				</form> */}
 
 				<SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4 }} gap={6}>
 					{isProductsFetched

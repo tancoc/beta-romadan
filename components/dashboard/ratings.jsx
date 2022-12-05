@@ -1,4 +1,4 @@
-import NextLink from 'next/link'
+import { useRouter } from 'next/router'
 import { useQuery } from '@tanstack/react-query'
 import api from 'instance'
 import { Avatar, Flex, Icon, IconButton, Image, Link, Td, Text, Tr } from '@chakra-ui/react'
@@ -7,6 +7,7 @@ import Card from 'components/_card'
 import Table from 'components/_table'
 
 const Ratings = () => {
+	const router = useRouter()
 	const { data: rnr, isFetched: isRnRFetched } = useQuery(['rnr_dashboard'], () => api.all('/rnr'))
 
 	return (
@@ -23,8 +24,8 @@ const Ratings = () => {
 				data={rnr}
 				fetched={isRnRFetched}
 				th={['Customer', 'Order Id', 'Stars', 'Date', '']}
-				td={(rnr, index) => (
-					<Tr key={index}>
+				td={(rnr) => (
+					<Tr key={rnr._id}>
 						<Td maxW={200}>
 							<Flex align="center" gap={3}>
 								<Avatar name={rnr.name} src={rnr.avatar} />
@@ -35,12 +36,8 @@ const Ratings = () => {
 							</Flex>
 						</Td>
 
-						<Td maxW={100}>
-							<NextLink href={`/admin/orders/${rnr.order.id}`} passHref>
-								<Link as="span" noOfLines={1}>
-									{rnr.order.id}
-								</Link>
-							</NextLink>
+						<Td>
+							<Text>{rnr.order.id.slice(0, 10)}</Text>
 						</Td>
 
 						<Td>
@@ -55,7 +52,7 @@ const Ratings = () => {
 						</Td>
 
 						<Td textAlign="right">
-							<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} />
+							<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} onClick={() => router.push(`/admin/orders/${rnr.order.id}`)} />
 						</Td>
 					</Tr>
 				)}

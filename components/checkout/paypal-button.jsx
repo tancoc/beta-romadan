@@ -20,7 +20,8 @@ const PaypalButton = ({ amount, placeOrder }) => {
 					]
 				})
 			}}
-			onApprove={(data, actions) => {
+			onApprove={async (data, actions) => {
+				await actions.order.capture()
 				handleApprove(data.orderID)
 			}}
 			onError={(err) => {

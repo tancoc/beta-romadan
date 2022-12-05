@@ -16,7 +16,7 @@ const Products = () => {
 				<Table
 					data={products}
 					fetched={isProductsFetched}
-					th={['Product', 'Quantity', 'Price', 'Sold', 'Ratings', 'Reviews', 'Status', '']}
+					th={['Product', 'Quantity', 'Price', 'Stock', 'Sold', 'total Sales', 'Status', '']}
 					td={(product, index) => (
 						<Tr key={index}>
 							<Td maxW={200}>
@@ -38,21 +38,15 @@ const Products = () => {
 							</Td>
 
 							<Td>
+								<Text>{product.inventory.shelf}</Text>
+							</Td>
+
+							<Td>
 								<Text>{product.sold.toLocaleString(undefined, { maximumFractionDigits: 2 })}</Text>
 							</Td>
 
 							<Td>
-								<Flex align="center">
-									<Icon as={FiStar} boxSize={4} fill="currentcolor" color="brand.default" />
-									<Icon as={FiStar} boxSize={4} fill="currentcolor" color="brand.default" />
-									<Icon as={FiStar} boxSize={4} fill="currentcolor" color="brand.default" />
-									<Icon as={FiStar} boxSize={4} fill="currentcolor" color="brand.default" />
-									<Icon as={FiStar} boxSize={4} fill="currentcolor" color="brand.default" />
-								</Flex>
-							</Td>
-
-							<Td>
-								<Text>0</Text>
+								<Text>₱{product.total_sales.toLocaleString(undefined, { maximumFractionDigits: 2 })}</Text>
 							</Td>
 
 							<Td>
@@ -73,6 +67,16 @@ const Products = () => {
 							</Button>
 						</Flex>
 					)}
+					filters={(data, watch) => {
+						return data.filter((data) =>
+							['name'].some((key) =>
+								data[key]
+									.toString()
+									.toLowerCase()
+									.includes(watch('search') && watch('search').toLowerCase())
+							)
+						)
+					}}
 					settings={{
 						placeholder: 'Search Products'
 					}}

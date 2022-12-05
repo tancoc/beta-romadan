@@ -43,7 +43,7 @@ const Orders = () => {
 							</Td>
 
 							<Td>
-								<Badge variant="tinted" colorScheme="brand">
+								<Badge variant="tinted" colorScheme={order.status !== 'cancelled' ? 'brand' : 'red'}>
 									{order.status === 'pay' ? 'To Pay' : order.status === 'ship' ? 'To Ship' : order.status === 'receive' ? 'To Received' : order.status === 'completed' ? 'Completed' : order.status === 'cancelled' && 'Cancelled'}
 								</Badge>
 							</Td>
@@ -57,6 +57,16 @@ const Orders = () => {
 							</Td>
 						</Tr>
 					)}
+					filters={(data, watch) => {
+						return data.filter((data) =>
+							['name'].some((key) =>
+								data[key]
+									.toString()
+									.toLowerCase()
+									.includes(watch('search') && watch('search').toLowerCase())
+							)
+						)
+					}}
 				/>
 			</Card>
 		</Container>

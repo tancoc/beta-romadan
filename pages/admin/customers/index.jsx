@@ -38,12 +38,21 @@ const Customers = () => {
 							</Td>
 
 							<Td textAlign="right">
-								<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} />
+								<IconButton size="xs" icon={<FiMoreHorizontal size={12} />} onClick={() => router.push(`/admin/customers/${user._id}`)} />
 							</Td>
 						</Tr>
 					)}
-					filters={(data) => {
-						return data.filter((data) => data.role === 'Customer')
+					filters={(data, watch) => {
+						return data
+							.filter((data) =>
+								['name'].some((key) =>
+									data[key]
+										.toString()
+										.toLowerCase()
+										.includes(watch('search') && watch('search').toLowerCase())
+								)
+							)
+							.filter((data) => data.role === 'Customer')
 					}}
 					settings={{
 						placeholder: 'Search Customers'

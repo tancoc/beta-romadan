@@ -1,8 +1,15 @@
+import { useQuery } from '@tanstack/react-query'
+import api from 'instance'
 import { Box, Flex, GridItem, Icon, Text } from '@chakra-ui/react'
 import { FiDollarSign, FiGrid, FiPackage, FiUsers } from 'react-icons/fi'
 import Card from 'components/_card'
 
 const Statistics = () => {
+	const { data: users, isFetched: isUsersFetched } = useQuery(['users'], () => api.all('/users'))
+	const { data: products, isFetched: isProductsFetched } = useQuery(['products'], () => api.all('/products'))
+	const { data: orders, isFetched: isOrdersFetched } = useQuery(['orders'], () => api.all('/orders'))
+	const { data: sales, isFetched: isSalesFetched } = useQuery(['sales'], () => api.get('/sales', '637bba7201c9e559d6d2e174'))
+
 	return (
 		<>
 			<GridItem colSpan={{ base: 12, md: 6, '2xl': 3 }}>
@@ -10,7 +17,7 @@ const Statistics = () => {
 					<Flex justify="space-between" align="center">
 						<Flex direction="column" gap={1} w="calc(100% - 76px)">
 							<Text fontSize="2xl" fontWeight="semibold" color="accent-1" noOfLines={1}>
-								0
+								{isUsersFetched ? users.length : 0}
 							</Text>
 
 							<Text fontSize="sm" fontWeight="medium" color="accent-1">
@@ -30,7 +37,7 @@ const Statistics = () => {
 					<Flex justify="space-between" align="center">
 						<Flex direction="column" gap={1} w="calc(100% - 76px)">
 							<Text fontSize="2xl" fontWeight="semibold" color="accent-1" noOfLines={1}>
-								0
+								{isProductsFetched ? products.length : 0}
 							</Text>
 
 							<Text fontSize="sm" fontWeight="medium" color="accent-1">
@@ -50,7 +57,7 @@ const Statistics = () => {
 					<Flex justify="space-between" align="center">
 						<Flex direction="column" gap={1} w="calc(100% - 76px)">
 							<Text fontSize="2xl" fontWeight="semibold" color="accent-1" noOfLines={1}>
-								0
+								{isOrdersFetched ? orders.length : 0}
 							</Text>
 
 							<Text fontSize="sm" fontWeight="medium" color="accent-1">
@@ -70,7 +77,7 @@ const Statistics = () => {
 					<Flex justify="space-between" align="center">
 						<Flex direction="column" gap={1} w="calc(100% - 76px)">
 							<Text fontSize="2xl" fontWeight="semibold" color="white" noOfLines={1}>
-								₱0.00
+								₱{isSalesFetched ? sales.total_sales.toLocaleString(undefined, { maximumFractionDigits: 2 }) : 0}
 							</Text>
 
 							<Text fontSize="sm" fontWeight="medium" color="white">
